@@ -1,0 +1,30 @@
+body {
+  padding: 100px;
+  color: #fafafa;
+  background: #3D566E;
+}
+a {
+  color: #fafafa;
+}
+a:hover {
+  color: #cccccc;
+}
+h1 {
+  font-size: 3em;
+}
+h1 small {
+  font-size: .8em;
+  color: #666;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60px;
+  background: #2C3E50;
+  box-shadow: 0 1px 3px 0 #111;
+  color: #fff;
+  text-align: center;
+  line-height: 60px;
+}
