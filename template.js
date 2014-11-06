@@ -33,7 +33,7 @@
       init.prompt('name'),
       init.prompt('title'),
       init.prompt('description', 'xia0zj的个人前端项目'),
-      init.prompt('version', '0.0.1'),
+      init.prompt('version', '0.1.0'),
       init.prompt('author_name', 'xia0zj'),
       init.prompt('author_email', 'bladecamper #at# Gmail ( d o t ) com'),
     ], function(err, props) {

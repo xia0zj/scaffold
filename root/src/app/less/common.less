@@ -1,43 +1,111 @@
-@basefontcolor : #fafafa;
-@baselinkcolor : #fafafa;
-@baselinkactivecolor : #ccc;
-@baseborder : 1px solid #e5e5e5;
+@baseColor : #fafafa;
+@linkColor : #fafafa;
+@linkActiveColor : #ccc;
+@borderColor : #e5e5e5;
+@space: 10px;
+@wrapWith : 960px;
+@sideCol : left;
+@fontSize: 14px;
 
+// ---------- 开始 混合 -------------
 
+// 兼容IE的半透明背景色解决方案
+.translucent ( @r: 0; @g: 0; @b: 0; @a: 0.5 ) {
+    background-color: rgba(@r, @g, @b, @a);
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=argb(rgba(@r, @g, @b, @a)), endColorstr=argb(rgba(@r, @g, @b, @a)));
+}
+.arrow ( @width: 5px ) {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+
+    border: @width solid transparent;
+}
+.arrowTop ( @width; @color: #ccc; ) {
+    .arrow(@width);
+    bottom: 100%;
+
+    border-top:none;
+    border-bottom-color:@color;
+}
+.arrowBottom ( @width; @color: #ccc; ) {
+    .arrow(@width);
+    top: 100%;
+
+    border-bottom: none;
+    border-top-color: @color;
+}
+
+// ---------- 结束 混合 -------------
+
+/**
+ * 全局通用样式
+ */
 body {
-    padding:100px;
-    color: @basefontcolor;
-    background: #3D566E;
+    color: @baseColor;
+    font-size: @fontSize;
+    background: #fff;
 }
-
 a {
-    color: @baselinkcolor;
-
+    color: @linkColor;
     &:hover {
-        color: @baselinkactivecolor;
+        color: @linkActiveColor;
+        text-decoration: underline;
+    }
+}
+/* 默认带下划线的链接 */
+.u {
+    text-decoration: underline;
+    &:hover {
+        text-decoration: none;
+    }
+}
+/* 单行文本超出显示省略号 */
+.text-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* box */
+.box {
+    margin-bottom: @space;
+    border: 1px solid @borderColor;
+    background: transparent;
+
+    & > .hd {
+        height: 35px;
+        padding: @space;
+        border-bottom: 1px solid @borderColor;
+        .hd-title {
+            float: left;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .action {
+            float: right;
+        }
+    }
+
+    & > .bd {
+
     }
 }
 
-h1 {
-    font-size: 3em;
-    small {
-        font-size: .8em;
-        color: #666;
+/**
+ * 页面主体布局
+ */
+.row {
+    width: @wrapWith;
+    margin-left: auto;
+    margin-right: auto;
+    clear: both;
+
+    & > .col-side {
+        float: @sideCol;
     }
-}
 
-.footer {
-    position : fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    height: 60px;
-
-    background: #2C3E50;
-    box-shadow: 0 1px 3px 0 #111;
-
-    color: #fff;
-    text-align:center;
-    line-height: 60px;
+    & > .col-main {
+        float: replace("leftright", @sideCol, "");
+    }
 }
