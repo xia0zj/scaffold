@@ -1,6 +1,6 @@
-@baseColor : #fafafa;
-@linkColor : #fafafa;
-@linkActiveColor : #ccc;
+@baseColor : #333;
+@linkColor : #333;
+@linkActiveColor : #36F;
 @borderColor : #e5e5e5;
 @space: 10px;
 @wrapWith : 960px;
@@ -10,32 +10,96 @@
 // ---------- 开始 混合 -------------
 
 // 兼容IE的半透明背景色解决方案
-.translucent ( @r: 0; @g: 0; @b: 0; @a: 0.5 ) {
-    background-color: rgba(@r, @g, @b, @a);
-    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=argb(rgba(@r, @g, @b, @a)), endColorstr=argb(rgba(@r, @g, @b, @a)));
+.translucent ( @color; @a: 0.5 ) {
+    background-color: rgba(red(@color), green(@color), blue(@color), @a);
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=argb(rgba(red(@color), green(@color), blue(@color), @a)), endColorstr=argb(rgba(red(@color), green(@color), blue(@color), @a)));
 }
-.arrow ( @width: 5px ) {
-    content: "";
-    width: 0;
-    height: 0;
-    position: absolute;
 
-    border: @width solid transparent;
+// 三角箭头
+// @direction:方向 @position:定位（例left 30px） @type:实心或空心 @innercolor:当type=hollow时生效，空心区域的颜色
+.arrow ( @direction; @position; @width: 5px; @color: #ccc; @type: solid; ) when ( @type = solid ) {
+    position: relative;
+    .arrowbase ( @direction; @width; @color; ) {
+        content: "";
+        width: 0;
+        height: 0;
+        position: absolute;
+        border: @width solid transparent;
+        border-@{direction}: none;
+    }
+    .arrowbase ( @direction; @width; @color; ) when ( @direction = top ) {
+        bottom: 100%;
+        border-bottom-color: @color;
+    }
+    .arrowbase ( @direction; @width; @color; ) when ( @direction = right ) {
+        left: 100%;
+        border-left-color: @color;
+    }
+    .arrowbase ( @direction; @width; @color; ) when ( @direction = bottom ) {
+        top: 100%;
+        border-top-color: @color;
+    }
+    .arrowbase ( @direction; @width; @color; ) when ( @direction = left ) {
+        right: 100%;
+        border-right-color: @color;
+    }
+    &:before {
+        .arrowbase(@direction; @width; @color; );
+        @pos : extract(@position, 1);
+        @{pos} : extract(@position, 2);
+    }
 }
-.arrowTop ( @width; @color: #ccc; ) {
-    .arrow(@width);
-    bottom: 100%;
+.arrow ( @direction; @position; @width: 5px; @color: #ccc; @type: solid; @innercolor: #fff; ) when ( @type = hollow ) {
+    position: relative;
+    .position ( @position; @offset: 0 ) {
+        @pos : extract(@position, 1);
+        @{pos} : extract(@position, 2) + @offset;
+    }
+    .arrowbase ( @direction; @width; @color; ) {
+        content: "";
+        width: 0;
+        height: 0;
+        position: absolute;
+        border: @width solid transparent;
+        border-@{direction}: none;
+    }
+    .arrowbase ( @direction; @width; @color; ) when ( @direction = top ) {
+        bottom: 100%;
+    }
+    .arrowbase ( @direction; @width; @color; ) when ( @direction = right ) {
+        left: 100%;
+    }
+    .arrowbase ( @direction; @width; @color; ) when ( @direction = bottom ) {
+        top: 100%;
+    }
+    .arrowbase ( @direction; @width; @color; ) when ( @direction = left ) {
+        right: 100%;
+    }
+    .arrowcolor ( @direction; @color ) when ( @direction = top ) {
+        border-bottom-color: @color;
+    }
+    .arrowcolor ( @direction; @color ) when ( @direction = right ) {
+        border-left-color: @color;
+    }
+    .arrowcolor ( @direction; @color ) when ( @direction = bottom ) {
+        border-top-color: @color;
+    }
+    .arrowcolor ( @direction; @color ) when ( @direction = left ) {
+        border-right-color: @color;
+    }
+    &:before,
+    &:after {
+        .arrowbase(@direction; @width; @color; );
+        .arrowcolor(@direction; @color;);
+        .position(@position);
+    }
+    &:after {
+        border-width: @width - 1;
+        .arrowcolor(@direction; @innercolor;);
+        .position(@position; 1);
+    }
+}
 
-    border-top:none;
-    border-bottom-color:@color;
-}
-.arrowBottom ( @width; @color: #ccc; ) {
-    .arrow(@width);
-    top: 100%;
-
-    border-bottom: none;
-    border-top-color: @color;
-}
 
 // ---------- 结束 混合 -------------
 
@@ -106,6 +170,6 @@ a {
     }
 
     & > .col-main {
-        float: replace("leftright", @sideCol, "");
+        float: replace(leftright, @sideCol, "");
     }
 }
