@@ -33,9 +33,14 @@
       init.prompt('name'),
       init.prompt('title'),
       init.prompt('description', 'xia0zj的个人前端项目'),
+      init.prompt('repository'),
+      init.prompt('homepage'),
+      init.prompt('bugs'),
+      init.prompt('licenses'),
       init.prompt('version', '0.1.0'),
       init.prompt('author_name', 'xia0zj'),
       init.prompt('author_email', 'bladecamper #at# Gmail ( d o t ) com'),
+      init.prompt('author_url'),
     ], function(err, props) {
 
       props.keywords = [];
@@ -47,27 +52,27 @@
       init.copyAndProcess(files, props, {noProcess: 'libs/**'});
 
       // 生成package.json，供Grunt、npm使用
-      init.writePackageJSON('package.json', {
-        name: 'xia0zj-PROJ',
-        version: '0.0.0-ignored',
-        npm_test: 'grunt qunit',
+      // init.writePackageJSON('package.json', {
+      //   name: 'xia0zj-PROJ',
+      //   version: '0.0.0-ignored',
+      //   npm_test: 'grunt qunit',
 
-        node_version: '>= 0.8.0',
-        devDependencies: {
-          "connect-livereload": "^0.5.0",
-          "grunt-bowercopy": "^1.1.0",
-          "grunt-contrib-clean": "^0.6.0",
-          "grunt-contrib-concat": "^0.5.0",
-          "grunt-contrib-connect": "^0.8.0",
-          "grunt-contrib-copy": "^0.7.0",
-          "grunt-contrib-cssmin": "^0.10.0",
-          "grunt-contrib-less": "^0.12.0",
-          "grunt-contrib-uglify": "^0.6.0",
-          "grunt-contrib-watch": "^0.6.1",
-          "grunt-usemin": "^2.5.1",
-          "load-grunt-tasks": "^1.0.0"
-        },
-      });
+      //   node_version: '>= 0.8.0',
+      //   devDependencies: {
+      //     "connect-livereload": "^0.5.0",
+      //     "grunt-bowercopy": "^1.1.0",
+      //     "grunt-contrib-clean": "^0.6.0",
+      //     "grunt-contrib-concat": "^0.5.0",
+      //     "grunt-contrib-connect": "^0.8.0",
+      //     "grunt-contrib-copy": "^0.7.0",
+      //     "grunt-contrib-cssmin": "^0.10.0",
+      //     "grunt-contrib-less": "^0.12.0",
+      //     "grunt-contrib-uglify": "^0.6.0",
+      //     "grunt-contrib-watch": "^0.6.1",
+      //     "grunt-usemin": "^2.5.1",
+      //     "load-grunt-tasks": "^1.0.0"
+      //   },
+      // });
 
       // All done!
       done();
