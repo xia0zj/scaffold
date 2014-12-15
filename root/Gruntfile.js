@@ -18,6 +18,10 @@ module.exports = function(grunt){
             less : {
                 files : ['src/app/less/*.less'],
                 tasks : ['less']
+            },
+            sass : {
+                files : ['src/app/sass/*.scss'],
+                tasks : ['sass']
             }
         },
 
@@ -35,7 +39,8 @@ module.exports = function(grunt){
                 options : {
                     port : 8002,
                     base : 'dest',
-                    hostname : "localhost"
+                    hostname : "localhost",
+                    open : false
                 }
             }
         },
@@ -52,13 +57,39 @@ module.exports = function(grunt){
             }
         },
 
+        sass : {
+            dist: {
+                options : {
+                    sourcemap : 'none',
+                    noCache : true,
+                    style : 'expanded'
+                },
+                files: [{
+                    expand : true,
+                    cwd : 'src/app/sass',
+                    src : ['*.scss', '!_*.scss'],
+                    dest : 'src/app/css',
+                    ext : '.css'
+                }]
+            }
+        },
+
         bowercopy : {
-            libs: {
+            fontawesome: {
                 options: {
-                    destPrefix: 'dest/lib' //目的地文件夹的路径
+                    destPrefix: 'src/lib/fontawesome' //目的地文件夹的路径
                 },
                 files: {
-                  // 'jquery.min.js': 'jquery/dist/jquery.min.js'
+                    "css" : "fontawesome/css",
+                    "fonts" : "fontawesome/fonts"
+                }
+            },
+            flexslider : {
+                options: {
+                    destPrefix: 'src/lib'
+                },
+                files: {
+                    "flexslider.js" : "flexslider/jquery.flexslider-min.js"
                 }
             }
         },
@@ -90,9 +121,6 @@ module.exports = function(grunt){
     });
 
     require('load-grunt-tasks')(grunt);
-
-    // 当使用bower install安装新的依赖后 用bowercopy复制需要的文件到dist目录
-    grunt.registerTask('lib', ['bowercopy']);
 
     // 开始编码
     grunt.registerTask('coding', ['connect', 'watch']);
