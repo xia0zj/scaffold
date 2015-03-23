@@ -1,0 +1,76 @@
+// 12px像素宋体
+.simsun12() {
+    font-size: 12px;
+    font-family: SimSun, Arial, "Hiragino Sans GB", sans-serif;
+}
+
+// 兼容IE的半透明背景色解决方案
+.bgrgba ( @color: #000; @a: 0.5 ) {
+    background-color: rgba(red(@color), green(@color), blue(@color), @a);
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=argb(rgba(red(@color), green(@color), blue(@color), @a)), endColorstr=argb(rgba(red(@color), green(@color), blue(@color), @a)));
+}
+// box-shadow
+.boxshadow( @a ) {
+    -moz-box-shadow: @a;
+    -o-box-shadow: @a;
+    -webkit-box-shadow: @a;
+    box-shadow: @a;
+}
+
+// 改变盒模型为border-box
+.boxsizing(@type: border) {
+    -moz-box-sizing: @type-box;
+    -webkit-box-sizing: @type-box;
+    box-sizing: @type-box;
+}
+// 单行文本超出显示省略号
+.text-overflow() {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+// 图片100%宽高
+.img-fill() {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+// 响应式图片
+.img-responsive(@maxWidth: 100%) {
+    display: block;
+    max-width: @maxWidth;
+    height: auto;
+}
+// 表单输入框
+.form-control(@height: 32px; @padding: 4px;) {
+    display: block;
+    width: 100%;
+    height: @height;
+    padding: @padding;
+    border: 1px solid @gray;
+    border-radius: 2px;
+    line-height: @height - @padding*2;
+    vertical-align: middle;
+    .boxshadow(inset 1px 1px 3px -1px @gray);
+    &.xsmall {
+        display:inline-block;
+        width: 28%!important;
+    }
+    &.small {
+        display:inline-block;
+        width: 40%!important;
+    }
+    &.medium {
+        display:inline-block;
+        width: 60%!important;
+    }
+    &.inline {
+        display: inline;
+        width: auto!important;
+        margin: 0 2px;
+    }
+    select&,
+    textarea& {
+        height: auto!important;
+    }
+}

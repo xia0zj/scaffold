@@ -10,18 +10,17 @@ module.exports = function(grunt){
                     livereload: true
                 },
                 files: [
-                    'src/app/css/*.css',
-                    'src/app/js/*.js',
-                    'src/html/*.html'
+                    'src/html/*.*',
+                    'src/static/**/*.*'
                 ]
             },
             less : {
-                files : ['src/app/less/*.less'],
+                files : ['src/less/**/*.less'],
                 tasks : ['less']
             },
-            sass : {
-                files : ['src/app/sass/*.scss'],
-                tasks : ['sass']
+            includes : {
+                files : ['src/tpl/*.html', 'src/include/*.tpl'],
+                tasks : ['includes']
             }
         },
 
@@ -29,16 +28,16 @@ module.exports = function(grunt){
             options: {
                 port : 8001,
                 base : 'src',
-                hostname : "localhost",
+                hostname : "",
                 livereload: true,
-                open : true
+                open : "http://localhost:8001"
             },
             livereload: {
             },
             dest : {
                 options : {
                     port : 8002,
-                    base : 'dest',
+                    base : 'dist',
                     hostname : "localhost",
                     open : false
                 }
@@ -49,35 +48,30 @@ module.exports = function(grunt){
             compile: {
                 files: [{
                     expand : true,
-                    cwd : 'src/app/less',
+                    cwd : 'src/less',
                     src : ['*.less', '!_*.less'],
-                    dest : 'src/app/css',
+                    dest : 'src/static/css',
                     ext : '.css'
                 }]
             }
         },
 
-        sass : {
-            dist: {
-                options : {
-                    sourcemap : 'none',
-                    noCache : true,
-                    style : 'expanded'
+        includes : {
+            files: {
+                options: {
+                    includePath: 'src/include'
                 },
-                files: [{
-                    expand : true,
-                    cwd : 'src/app/sass',
-                    src : ['*.scss', '!_*.scss'],
-                    dest : 'src/app/css',
-                    ext : '.css'
-                }]
+                flatten: true,
+                cwd: '.',
+                src: ['src/tpl/*.*'], // Source files
+                dest: 'src/html' // Destination directory
             }
         },
 
         bowercopy : {
             fontawesome: {
                 options: {
-                    destPrefix: 'src/lib/fontawesome' //目的地文件夹的路径
+                    destPrefix: 'src/static/lib/fontawesome' //目的地文件夹的路径
                 },
                 files: {
                     "css" : "fontawesome/css",
@@ -86,10 +80,70 @@ module.exports = function(grunt){
             },
             flexslider : {
                 options: {
-                    destPrefix: 'src/lib'
+                    destPrefix: 'src/static/lib'
                 },
                 files: {
                     "flexslider.js" : "flexslider/jquery.flexslider-min.js"
+                }
+            },
+            fullcalendar : {
+                options : {
+                    destPrefix: 'src/static/lib/fullcalendar'
+                },
+                files: {
+                    "fullcalendar.min.js" : "fullcalendar/dist/fullcalendar.min.js",
+                    "fullcalendar.min.css" : "fullcalendar/dist/fullcalendar.min.css"
+                }
+            },
+            datetimepicker : {
+                options : {
+                    destPrefix: 'src/static/lib/datetimepicker'
+                },
+                files: {
+                    "jquery.datetimepicker.css" : "datetimepicker/jquery.datetimepicker.css",
+                    "jquery.datetimepicker.js" : "datetimepicker/jquery.datetimepicker.js"
+                }
+            },
+            masonry : {
+                options : {
+                    destPrefix: 'src/static/lib'
+                },
+                files: {
+                    "masonry.pkgd.min.js" : "masonry/dist/masonry.pkgd.min.js"
+                }
+            },
+            infinitescroll : {
+                options : {
+                    destPrefix: 'src/static/lib'
+                },
+                files: {
+                    "jquery.infinitescroll.min.js" : "jquery-infinite-scroll/jquery.infinitescroll.min.js"
+                }
+            },
+            arttemplate : {
+                options : {
+                    destPrefix: 'src/static/lib'
+                },
+                files: {
+                    "template.js" : "artTemplate/dist/template.js"
+                }
+            },
+            imagesloaded : {
+                options : {
+                    destPrefix: 'src/static/lib'
+                },
+                files: {
+                    "imagesloaded.pkgd.min.js" : "imagesloaded/imagesloaded.pkgd.min.js"
+                }
+            },
+            artDialog : {
+                options : {
+                    destPrefix: 'src/static/lib/artDialog'
+                },
+                files: {
+                    "ui-dialog.css" : "artDialog/css/ui-dialog.css",
+                    "dialog-min.js" : "artDialog/dist/dialog-min.js",
+                    "dialog-plus-min.js" : "artDialog/dist/dialog-plus-min.js"
                 }
             }
         },
@@ -97,34 +151,45 @@ module.exports = function(grunt){
         copy : {
             main : {
                 files : [
-                    {expand: true, cwd: 'src', src: ['lib/**'], dest: 'dest/'}, // 复制所有非bower安装的依赖模块
-                    {expand: true, cwd: 'src', src: ['html/**'], dest: 'dest/'}, // 复制所有静态页面
-                    {expand: true, cwd: 'src', src: ['app/img/**'], dest: 'dest/'} // 复制所有非sprite图片
+                    {expand: true, cwd: 'src', src: ['static/lib/**'], dest: 'dist/'}, // 复制所有依赖模块
+                    {expand: true, cwd: 'src', src: ['html/**'], dest: 'dist/'}, // 复制所有静态页面
+                    {expand: true, cwd: 'src', src: ['static/img/**'], dest: 'dist/'} // 复制所有图片
                 ]
             }
         },
 
+        uglify : {
+            generated : {
+                options : {
+                    sourceMap : false
+                }
+            }
+        },
+
         useminPrepare : {
-            html: ['dest/html/*.html'],
+            html: ['src/html/*.html'],
             options: {
-                root: 'src',
-                dest: 'dest',
-                staging : 'src/tmp'
+                flow: { steps: { js: ['uglifyjs'], css: ['cssmin'] }, post: {} },
+                dest: 'dist/html',
+                staging : '_tmp'
             }
         },
 
         usemin:{
-            html: ['dest/html/*.html']
+            html: ['dist/html/*.html'],
+            options: {
+                assetsDirs: ['dist/static/js', 'dist/static/css']
+            }
         },
 
-        clean : ['src/tmp']
+        clean : ['_tmp']
     });
 
     require('load-grunt-tasks')(grunt);
 
     // 开始编码
-    grunt.registerTask('coding', ['connect', 'watch']);
+    grunt.registerTask('default', ['connect', 'watch']);
 
     // 编码完成，发布(依次为发布)
-    grunt.registerTask('build', ['copy', 'useminPrepare', 'concat', 'cssmin', 'uglify', 'usemin', 'clean']);
+    grunt.registerTask('build', ['copy', 'useminPrepare', 'cssmin:generated', 'uglify:generated', 'usemin']);
 }
