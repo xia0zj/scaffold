@@ -1,5 +1,11 @@
 module.exports = function(grunt){
 
+    var port = {
+        livereload : Math.ceil(Math.random()*(30000-26000)+26000),
+        src        : Math.ceil(Math.random()*(9999-6000)+6000),
+        dest       : Math.ceil(Math.random()*(9999-6000)+6000)
+    };
+
     // 项目配置
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -7,39 +13,49 @@ module.exports = function(grunt){
         watch: {
             livereload: {
                 options: {
-                    livereload: true
+                    livereload: port.livereload
                 },
                 files: [
                     'src/html/*.*',
                     'src/static/**/*.*'
                 ]
             },
-            less : {
-                files : ['src/less/**/*.less'],
+            lessComponents : {
+                files : ['src/less/common/*.less', 'src/less/widget/*.less'],
                 tasks : ['less']
             },
-            includes : {
-                files : ['src/tpl/*.html', 'src/include/*.tpl'],
-                tasks : ['includes']
+            lessApp : {
+                files : ['src/less/*.less'],
+                tasks : ['newer:less']
+            },
+            includesComponents : {
+                files : ['src/include/*.tpl'],
+                tasks : ['includereplace']
+            },
+            includesApp : {
+                files : ['src/tpl/*.html'],
+                tasks : ['newer:includereplace']
             }
         },
 
         connect : {
             options: {
-                port : 8001,
-                base : 'src',
                 hostname : "",
-                livereload: true,
-                open : "http://localhost:8001"
+                livereload: port.livereload
             },
-            livereload: {
+            src: {
+                options: {
+                    port : port.src,
+                    base : 'src',
+                    open: "http://localhost:"+port.src
+                }
             },
             dest : {
                 options : {
-                    port : 8002,
+                    port : port.dest,
                     base : 'dist',
-                    hostname : "localhost",
-                    open : false
+                    open: "http://localhost:"+port.dest,
+                    keepalive : true
                 }
             }
         },
@@ -65,6 +81,20 @@ module.exports = function(grunt){
                 cwd: '.',
                 src: ['src/tpl/*.*'], // Source files
                 dest: 'src/html' // Destination directory
+            }
+        },
+
+        includereplace: {
+            dist: {
+                options: {
+                    prefix: '<!-- @@',
+                    suffix: ' -->',
+                    includesDir: 'src/include/'
+                },
+                expand: true,
+                cwd: 'src/tpl',
+                src: '*.*',
+                dest: 'src/html/'
             }
         },
 
@@ -170,8 +200,7 @@ module.exports = function(grunt){
             html: ['src/html/*.html'],
             options: {
                 flow: { steps: { js: ['uglifyjs'], css: ['cssmin'] }, post: {} },
-                dest: 'dist/html',
-                staging : '_tmp'
+                dest: 'dist/html'
             }
         },
 
@@ -182,14 +211,14 @@ module.exports = function(grunt){
             }
         },
 
-        clean : ['_tmp']
+        clean : ['dist/*', '!dist/.svn', 'src/html/*']
     });
 
     require('load-grunt-tasks')(grunt);
 
     // 开始编码
-    grunt.registerTask('default', ['connect', 'watch']);
+    grunt.registerTask('default', ['connect:src', 'watch']);
 
     // 编码完成，发布(依次为发布)
-    grunt.registerTask('build', ['copy', 'useminPrepare', 'cssmin:generated', 'uglify:generated', 'usemin']);
+    grunt.registerTask('build', ['clean', 'includereplace', 'copy', 'prettify', 'useminPrepare', 'cssmin:generated', 'uglify:generated', 'usemin', 'connect:dest']);
 }
