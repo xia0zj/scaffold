@@ -18,10 +18,10 @@
 }
 
 // 改变盒模型为border-box
-.boxsizing(@type: border) {
-    -moz-box-sizing: @type-box;
-    -webkit-box-sizing: @type-box;
-    box-sizing: @type-box;
+.boxsizing(@type: border-box) {
+    -moz-box-sizing: @type;
+    -webkit-box-sizing: @type;
+    box-sizing: @type;
 }
 // 单行文本超出显示省略号
 .text-overflow() {
