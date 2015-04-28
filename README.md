@@ -6,7 +6,7 @@ bladecamper #at# Gmail ( d o t ) com
 
 运行命令：
 
-```git clone https://github.com/xia0zj/scaffold.git ~/.grunt-init/scaffold```
+```git clone -b master https://github.com/xia0zj/scaffold.git ~/.grunt-init/scaffold```
 
 ## 使用
 运行命令：
