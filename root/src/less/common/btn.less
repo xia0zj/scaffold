@@ -1,0 +1,32 @@
+.btn {
+    border: none;
+    cursor: pointer;
+    padding: 0.2em 1em;
+    text-align: center;
+    border-radius: 2px;
+    vertical-align: middle;
+    color: #fff;
+    &-primary {
+        background: @primaryColor;
+    }
+    &-secondary {
+        background: @secondaryColor;
+    }
+    &-warning {
+        background: @warningColor;
+    }
+    &-gray {
+        background: @gray;
+    }
+    a& {
+        display:inline-block;
+        &:hover {
+            color: #fff;
+        }
+    }
+    &-block {
+        display: block;
+        width: 100%;
+        padding: 0.5em 0;
+    }
+}

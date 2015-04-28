@@ -6,9 +6,9 @@ bladecamper #at# Gmail ( d o t ) com
 
 运行命令：
 
-```git clone https://github.com/xia0zj/scaffold.git ~/.grunt-init/scaffold```
+```git clone -b wapapp https://github.com/xia0zj/scaffold.git ~/.grunt-init/scaffold-for-wapapp```
 
 ## 使用
 运行命令：
 
-```grunt-init scaffold```
+```grunt-init scaffold-for-wapapp```

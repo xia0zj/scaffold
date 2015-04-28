@@ -1,1 +1,1 @@
-<link rel="stylesheet" href="http://at.alicdn.com/t/font_1423711420_0455303.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">

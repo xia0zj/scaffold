@@ -1,11 +1,14 @@
 @import "common/var.less";
 @import "common/mixin.less";
 
+html {
+    font-size: 62.5%;
+}
 body {
     color: @baseColor;
-    font-size: @fontSize;
-    font-family: "Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑",SimSun,sans-serif;
-    line-height: 1.6;
+    font-size: 1.6rem;
+    font-family: "Lucida Grande", Helvetica, Arial, STHeiTi, "Microsoft YaHei", "Droid Sans", "Hiragino Sans GB", "Hiragino Sans GB W3", sans-serif;
+    line-height: 1.7;
 }
 a {
     color: @baseColor;
@@ -14,44 +17,4 @@ a {
         color: @primaryColor;
         text-decoration: underline;
     }
-}
-
-/* box */
-.box {
-    margin-bottom: @space;
-    .hd {
-        margin: 0 0 @space;
-        h2, h3 {
-            float: left;
-            font-size: @fontSize * 1.3;
-            font-weight: normal;
-        }
-        .action {
-            float: right;
-        }
-    }
-}
-
-/* top */
-.top {
-
-}
-
-/* header */
-.header {
-
-}
-
-/* mainnav */
-.mainnav {
-
-}
-
-/* 面包屑导航 */
-.breadcrumb {
-}
-
-/* footer */
-.footer {
-
 }

@@ -9,7 +9,7 @@
   'use strict';
 
   // 模板简单介绍信息
-  exports.description = 'xia0zj的个人前端脚手架';
+  exports.description = 'xia0zj的个人前端脚手架(WAPAPP)';
 
   // 开始回答项目相关问题前，控制台打印的相关信息
   exports.notes = '请根据提示逐个填写项目信息，如果不想填的会可以直接enter跳过';
@@ -30,7 +30,7 @@
 
     init.process({type: 'xia0zj'}, [
       // 项目创建的时候，需要回答的问题
-      init.prompt('name'),
+      init.prompt('name', 'WAPAPP'),
       init.prompt('title'),
       init.prompt('description', 'xia0zj的个人前端项目'),
       init.prompt('repository'),
@@ -40,7 +40,7 @@
       init.prompt('version', '0.1.0'),
       init.prompt('author_name', 'xia0zj'),
       init.prompt('author_email', 'bladecamper #at# Gmail ( d o t ) com'),
-      init.prompt('author_url'),
+      init.prompt('author_url', 'http://coding.im/'),
     ], function(err, props) {
 
       props.keywords = [];

@@ -89,7 +89,11 @@ module.exports = function(grunt){
                 options: {
                     prefix: '<!-- @@',
                     suffix: ' -->',
-                    includesDir: 'src/include/'
+                    includesDir: 'src/include/',
+                    processIncludeContents: function (contents, locals) {
+                        var indent = new Array((locals.spaces || 0) + 1).join("    ");
+                        return contents.replace(/^/gm, indent).replace(indent, "");
+                    }
                 },
                 expand: true,
                 cwd: 'src/tpl',
